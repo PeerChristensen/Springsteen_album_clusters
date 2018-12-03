@@ -11,13 +11,14 @@ library(factoextra)
 library(ggbiplot)
 library(corrplot)
 library(FactoMineR)
+library(ggiraphExtra)
 
 Sys.setenv(SPOTIFY_CLIENT_ID     = "124f0a42539c4129916a773c0a6aebe3")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "a763c9bdb6cd4422910cb04644d96ce9")
 
-df <- get_artist_audio_features(artist = "bruce springsteen")
+#df <- get_artist_audio_features(artist = "bruce springsteen")
 
-write_csv(df,"springstten_albums.csv")
+#write_csv(df,"springstten_albums.csv")
 
 df <- read_csv("springstten_albums.csv")
 
@@ -218,3 +219,20 @@ fviz_pca_biplot(dfPCA2,
                 col.var = "gray47",
                 title=NULL)
 
+######
+# radar plots
+
+dfPCA %>%
+    mutate(albums = row.names(dfPCA)) %>%
+    ggRadar(aes(group = albums), 
+        rescale = FALSE, legend.position = "none",
+        size = 1, interactive = FALSE, use.label = TRUE) +
+  facet_wrap(~albums) + 
+  scale_y_discrete(breaks = NULL) + # don't show ticks 
+  theme(axis.text.x = element_text(size = 10)) + # larger label sizes
+  theme_minimal() +
+  theme(legend.position = "none") +
+  # adjust colors of radar charts to uniform colors
+ # scale_fill_manual(values = rep(mycolor, nrow(df))) +
+  #scale_color_manual(values = rep(mycolor, nrow(df))) 
+  NULL
