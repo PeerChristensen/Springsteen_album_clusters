@@ -13,8 +13,6 @@ library(corrplot)
 library(FactoMineR)
 library(ggiraphExtra)
 
-Sys.setenv(SPOTIFY_CLIENT_ID     = "124f0a42539c4129916a773c0a6aebe3")
-Sys.setenv(SPOTIFY_CLIENT_SECRET = "a763c9bdb6cd4422910cb04644d96ce9")
 
 #df <- get_artist_audio_features(artist = "bruce springsteen")
 
