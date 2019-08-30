@@ -18,7 +18,7 @@ library(ggiraphExtra)
 
 #write_csv(df,"springstten_albums.csv")
 
-df <- read_csv("springstten_albums.csv")
+df <- read_csv("springsteen_albums.csv")
 
 glimpse(df)
 unique(df$album_name)
@@ -122,6 +122,9 @@ fviz_dist(df_dist,gradient = list(low = inferno(5)[2], mid = "white", high = inf
 
 # H-CLUSTERING
 # Compute hierarchical clustering
+fviz_nbclust(dfScale, hcut)
+
+
 df.hc <- hclust(dist(scale(dfScale)))
 
 fviz_dend(df.hc, k = 2, # Cut in groups
@@ -220,8 +223,8 @@ fviz_pca_biplot(dfPCA2,
 ######
 # radar plots
 
-dfPCA %>%
-    mutate(albums = row.names(dfPCA)) %>%
+dfScale %>%
+    mutate(albums = row.names(dfScale)) %>%
     ggRadar(aes(group = albums), 
         rescale = FALSE, legend.position = "none",
         size = 1, interactive = FALSE, use.label = TRUE) +
@@ -230,6 +233,8 @@ dfPCA %>%
   theme(axis.text.x = element_text(size = 10)) + # larger label sizes
   theme_minimal() +
   theme(legend.position = "none") +
+  scale_fill_viridis_d(option="B") +
+  scale_colour_viridis_d(option="B")
   # adjust colors of radar charts to uniform colors
  # scale_fill_manual(values = rep(mycolor, nrow(df))) +
   #scale_color_manual(values = rep(mycolor, nrow(df))) 
