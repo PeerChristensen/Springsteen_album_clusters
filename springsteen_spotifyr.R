@@ -1,5 +1,5 @@
 
-devtools::install_github('charlie86/spotifyr')
+#devtools::install_github('charlie86/spotifyr')
 
 library(spotifyr)
 library(tidyverse)
@@ -12,7 +12,6 @@ library(ggbiplot)
 library(corrplot)
 library(FactoMineR)
 library(ggiraphExtra)
-
 
 #df <- get_artist_audio_features(artist = "bruce springsteen")
 
@@ -239,3 +238,22 @@ dfScale %>%
  # scale_fill_manual(values = rep(mycolor, nrow(df))) +
   #scale_color_manual(values = rep(mycolor, nrow(df))) 
   NULL
+
+######
+# radar plots of cluster centroids
+set.seed(324789)
+km.res <- kmeans(dfScale, 2, nstart = 25)
+
+centroids <- km.res$centers %>% 
+  as_tibble() %>%
+  mutate(Cluster = row_number()) %>%
+  select(Cluster, everything())
+
+centroids %>%
+  ggRadar(aes(group = Cluster), 
+          rescale = FALSE,
+          size = 1, interactive = FALSE, use.label = TRUE) +
+  scale_y_discrete(breaks = NULL) + # don't show ticks 
+  theme(axis.text.x = element_text(size = 10)) + # larger label sizes
+  theme_minimal() 
+  
